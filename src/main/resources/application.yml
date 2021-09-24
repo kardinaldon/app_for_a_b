@@ -1,0 +1,14 @@
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+
+url:
+  exchange_rates:
+    main: 'https://openexchangerates.org/api/'
+    last_prefix: 'historical/'
+    latest_prefix: 'latest'
+    base_params: '.json?app_id=78ee667e21694435a959959a947f6ee4&base=usd&symbols=rub'
