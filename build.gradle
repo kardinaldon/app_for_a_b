@@ -1,0 +1,57 @@
+plugins {
+	id 'org.springframework.boot' version '2.5.5'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id 'com.palantir.docker' version '0.28.0'
+	id "com.palantir.docker-run" version '0.28.0'
+}
+
+group = 'com.ab'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('springCloudVersion', "2020.0.4")
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+docker {
+	name 'app_for_a_b'
+	dockerfile file('src/docker/Dockerfile')
+	copySpec.from(jar).rename(".*","app.jar")
+	buildArgs(['JAR_FILE': "app.jar"])
+}
+
+dockerRun {
+	name 'app_for_a_b'
+	image 'app_for_a_b'
+	ports '8080:8080'
+	clean true
+}
+
+test {
+	useJUnitPlatform()
+}
