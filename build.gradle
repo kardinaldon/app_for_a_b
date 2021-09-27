@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'com.ab'
-version = '0.0.1-SNAPSHOT'
+version = '1'
 sourceCompatibility = '11'
 
 configurations {
@@ -24,32 +24,40 @@ ext {
 	set('springCloudVersion', "2020.0.4")
 }
 
+jar {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	manifest {
+		attributes(
+				'Main-Class': 'com.ab.app_for_a_b.AppForABApplication'
+		)
+	}
+}
+
+docker {
+	name "ab_app"
+	files bootJar.outputs
+	buildArgs(['JAR_FILE': bootJar.archiveFileName.get()])
+}
+
+dockerRun {
+	name 'ab_app'
+	image 'ab_app'
+	ports '8080:8080'
+	clean true
+}
+
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-web:2.5.5'
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.0.3'
+	compileOnly 'org.projectlombok:lombok:1.18.20'
+	annotationProcessor 'org.projectlombok:lombok:1.18.20'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.5'
 }
 
 dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
-}
-
-docker {
-	name 'app_for_a_b'
-	dockerfile file('src/docker/Dockerfile')
-	copySpec.from(jar).rename(".*","app.jar")
-	buildArgs(['JAR_FILE': "app.jar"])
-}
-
-dockerRun {
-	name 'app_for_a_b'
-	image 'app_for_a_b'
-	ports '8080:8080'
-	clean true
 }
 
 test {
