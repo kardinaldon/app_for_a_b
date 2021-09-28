@@ -5,9 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 
-
-
-@FeignClient(value = "gif", url = "${url.giphy.main}")
+@FeignClient(value = "clientGiphy", url = "${url.giphy.main}")
 public interface GiphyClient {
 
     @GetMapping("${url.giphy.rich}"+"${url.giphy.api_id}")

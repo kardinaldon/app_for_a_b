@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(value = "rate", url = "${url.exchange_rates.main}")
+@FeignClient(value = "clientExchangeRates", url = "${url.exchange_rates.main}")
 public interface ExchangeRateClient {
 
     @GetMapping("${url.exchange_rates.last_prefix}"

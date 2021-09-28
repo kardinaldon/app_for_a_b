@@ -1,10 +1,16 @@
 feign:
   client:
     config:
-      default:
+      clientGiphy:
+        errorDecoder: com.ab.app_for_a_b.client.error_decoder.GiphyFeignErrorDecoder
+        loggerLevel: BASIC
         connectTimeout: 5000
         readTimeout: 5000
-        loggerLevel: basic
+      clientExchangeRates:
+        errorDecoder: com.ab.app_for_a_b.client.error_decoder.ExchangeRateFeignErrorDecoder
+        loggerLevel: BASIC
+        connectTimeout: 5000
+        readTimeout: 5000
 
 url:
   exchange_rates:
