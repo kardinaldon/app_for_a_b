@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public interface GiphyClient {
 
     @GetMapping("${url.giphy.rich}"+"${url.giphy.api_id}")
-    ResponseEntity<GiphyModel> getRichGif ();
+    ResponseEntity<GiphyModel> getRichGif();
 
 
     @GetMapping("${url.giphy.broke}"+"${url.giphy.api_id}")
