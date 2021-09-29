@@ -51,7 +51,7 @@ public class GifService {
                     .getYesterdayExchangeRate(LocalDate.now().minusDays(1).toString()).getBody();
             BigDecimal latestExchangeRate = latestExchangeRateModel.getRates().get("RUB");
             BigDecimal yesterdayExchangeRate = yesterdayExchangeRateModel.getRates().get("RUB");
-            return Optional.of(latestExchangeRate.compareTo(yesterdayExchangeRate) >= 0 ? true : false);
+            return Optional.of(latestExchangeRate.compareTo(yesterdayExchangeRate) > 0 ? true : false);
         }
         catch (Exception ex) {
             log.error("An exception occurred!", new Exception(ex));
